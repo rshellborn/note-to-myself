@@ -15,6 +15,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/test', function () {
+    return view('test');
+});
+Route::get('/home', 'HomeController@index');
+Route::post('/home', 'FormController@index');
+
+//Route::post('/users/{user_id}/storage','StoreController@store' );
 
 Route::get('/unlock', function () {
     return view('unlock');
@@ -54,7 +61,7 @@ Route::get('/send-mail', function() {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+
 
 Route::any('/captcha-test', function()
 {
