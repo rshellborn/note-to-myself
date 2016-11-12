@@ -9,21 +9,31 @@
                 </div>
             </div>
             <div class="col-xs-12">
+                <!--{{Auth::user()->id}}-->
                 <form role="form" method="POST" action="{{ url('/home') }}" enctype="multipart/form-data">
+
+                    <!-- Maks added this and isn't sure what it does but it stopped the
+                         "TokenMismatchException in VerifyCsrfToken.php" -->
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                     <div class="col-xs-3">
                         <label for="notes">My Notes:</label>
-                        <textarea name ="noteBody" rows ="20" class ="form-control"> put something $}}</textarea>
+                        <textarea name ="texts" rows ="20" class ="form-control">
+                            @foreach ($texts as $text)
+                                {{$text->textBody}}
+                            @endforeach
+                        </textarea>
                     </div>
 
                     <div class="col-xs-3">
                         <label for="website">My WebSites:</label>
-                        <input class="form-control" name="website" id="website">
-                        <!-- foreach($website as $url)
-                            if not empty
-                                <input class="form-control" name="website" id="website" value="}}" onclick="window.open(this);">
-                            end if
-                         endforeach-->
-                        <input class="form-control" name="website" id="website">
+
+                        @foreach ($links as $link)
+                        <div name ="links" rows ="20" class ="form-control">
+                                <a href="{{ URL::to($link->linksBody) }}" >{{$link->linksBody}}</a>
+                        </div>
+                        @endforeach
+
                     </div>
 
                     <div class="col-xs-3">
@@ -42,12 +52,18 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <label for="tbd">My Tdb:</label>
-                        <textarea name ="tbdBody" rows ="20" class ="form-control"> put something $}}</textarea>
+                        <label for="tba">TBD</label>
+                        <textarea name ="tbas" rows ="20" class ="form-control">
+                            @foreach ($tbas as $tba)
+                                {{$tba->tbaBody}}
+                            @endforeach
+                        </textarea>
                     </div>
 
+
+
                     <div class = "text-center">
-                        <button type ="submit" class=" btn btn-primary">Save </button>
+                        <button type ="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
             </div>
