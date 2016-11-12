@@ -36,6 +36,7 @@ trait AuthenticatesUsers
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
             $this->sendLockoutEmail($request);
+            $this->lockAccount($request);
 
             return $this->sendLockoutResponse($request);
         }
@@ -50,6 +51,16 @@ trait AuthenticatesUsers
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    public function lockAccount($request) {
+        $email = $request->input('email');
+
+        $user = App\User::where('email', $email);
+
+        $user->status = 'locked';
+
+        $user->save();
     }
 
     public function sendLockoutEmail($request) {
