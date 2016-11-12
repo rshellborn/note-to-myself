@@ -47,10 +47,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $messages = [
+            'captcha.captcha' => 'Failed captcha.',
+        ];
         return Validator::make($data, [
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-        ]);
+            'captcha' => 'required|captcha',
+        ], $messages);
     }
 
     /**
@@ -64,6 +68,7 @@ class RegisterController extends Controller
         return User::create([
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+
         ]);
     }
 }
