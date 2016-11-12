@@ -1068,7 +1068,6 @@ return array(
     'Illuminate\\Queue\\Jobs\\SyncJob' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Jobs/SyncJob.php',
     'Illuminate\\Queue\\Listener' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Listener.php',
     'Illuminate\\Queue\\LuaScripts' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/LuaScripts.php',
-    'Illuminate\\Queue\\ManuallyFailedException' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/ManuallyFailedException.php',
     'Illuminate\\Queue\\MaxAttemptsExceededException' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/MaxAttemptsExceededException.php',
     'Illuminate\\Queue\\NullQueue' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/NullQueue.php',
     'Illuminate\\Queue\\Queue' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Queue.php',
