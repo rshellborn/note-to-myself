@@ -31,7 +31,7 @@
                         <input class="form-control" type="file" name="myImage" id="images">
                         <table>
                             <tr>
-                                <!-- //foreach($myImage as imgKey => img)
+                                <!-- //foreach($myImage as imgKey => img) fuuuuuck
                                          <text-align: center">
                                          <img height="150" width="150" src="????? $img }}"><br>
                                          <input type="checkbox" name="delete" value="imgKey}}"> delete
