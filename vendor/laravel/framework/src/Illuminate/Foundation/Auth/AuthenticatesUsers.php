@@ -36,7 +36,7 @@ trait AuthenticatesUsers
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
             $this->sendLockoutEmail($request);
-            $this->lockAccount($request);
+            //$this->lockAccount($request);
 
             return $this->sendLockoutResponse($request);
         }
