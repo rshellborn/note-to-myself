@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e0b175c87c2098f503de710cc157430d",
-    "content-hash": "650ea91a91925d5f56ad279769560ecf",
+    "hash": "2e840c1843750db43e833477c4cfe1a8",
+    "content-hash": "a9e38bd81f5902699031fddf7707e396",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -439,12 +439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7b55237032c419ff0f802e2a610094dd5efacd71"
+                "reference": "57be173daca2e85964b02f50d5de2fa7c83bdbdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7b55237032c419ff0f802e2a610094dd5efacd71",
-                "reference": "7b55237032c419ff0f802e2a610094dd5efacd71",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/57be173daca2e85964b02f50d5de2fa7c83bdbdb",
+                "reference": "57be173daca2e85964b02f50d5de2fa7c83bdbdb",
                 "shasum": ""
             },
             "require": {
@@ -559,7 +559,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-11-07 22:41:58"
+            "time": "2016-11-10 13:38:51"
         },
         {
             "name": "league/flysystem",
@@ -2171,12 +2171,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "47104e5a568d5bdc57f4073dcdb030f13440088d"
+                "reference": "70572abb2ee34c79a566dc13d016f89011f8365e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/47104e5a568d5bdc57f4073dcdb030f13440088d",
-                "reference": "47104e5a568d5bdc57f4073dcdb030f13440088d",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/70572abb2ee34c79a566dc13d016f89011f8365e",
+                "reference": "70572abb2ee34c79a566dc13d016f89011f8365e",
                 "shasum": ""
             },
             "require": {
@@ -2213,7 +2213,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-11-07 15:53:41"
+            "time": "2016-11-09 08:42:27"
         },
         {
             "name": "hamcrest/hamcrest-php",

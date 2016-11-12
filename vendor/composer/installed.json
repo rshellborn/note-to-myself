@@ -595,12 +595,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/fzaninotto/Faker.git",
-            "reference": "47104e5a568d5bdc57f4073dcdb030f13440088d"
+            "reference": "70572abb2ee34c79a566dc13d016f89011f8365e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/47104e5a568d5bdc57f4073dcdb030f13440088d",
-            "reference": "47104e5a568d5bdc57f4073dcdb030f13440088d",
+            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/70572abb2ee34c79a566dc13d016f89011f8365e",
+            "reference": "70572abb2ee34c79a566dc13d016f89011f8365e",
             "shasum": ""
         },
         "require": {
@@ -611,7 +611,7 @@
             "phpunit/phpunit": "~4.0",
             "squizlabs/php_codesniffer": "~1.5"
         },
-        "time": "2016-11-07 15:53:41",
+        "time": "2016-11-09 08:42:27",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3626,18 +3626,77 @@
         ]
     },
     {
+        "name": "mews/captcha",
+        "version": "v2.1.4",
+        "version_normalized": "2.1.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mewebstudio/captcha.git",
+            "reference": "ada76309e55fcbd3bb5604f4fd0dd357dec35823"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mewebstudio/captcha/zipball/ada76309e55fcbd3bb5604f4fd0dd357dec35823",
+            "reference": "ada76309e55fcbd3bb5604f4fd0dd357dec35823",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*",
+            "illuminate/config": "~5.0",
+            "illuminate/filesystem": "~5.0",
+            "illuminate/hashing": "~5.0",
+            "illuminate/support": "~5.0",
+            "intervention/image": "~2.2",
+            "php": ">=5.4"
+        },
+        "require-dev": {
+            "mockery/mockery": "0.9.*",
+            "phpunit/phpunit": "~4.1"
+        },
+        "time": "2016-07-19 09:01:51",
+        "type": "package",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Mews\\Captcha\\": "src/"
+            },
+            "files": [
+                "src/helpers.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Muharrem ERİN",
+                "email": "me@mewebstudio.com",
+                "homepage": "https://github.com/mewebstudio",
+                "role": "Developer"
+            }
+        ],
+        "description": "Laravel 5 Captcha Package",
+        "homepage": "https://github.com/mewebstudio/captcha",
+        "keywords": [
+            "captcha",
+            "laravel5 Captcha",
+            "laravel5 Security"
+        ]
+    },
+    {
         "name": "laravel/framework",
         "version": "5.3.x-dev",
         "version_normalized": "5.3.9999999.9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/laravel/framework.git",
-            "reference": "7b55237032c419ff0f802e2a610094dd5efacd71"
+            "reference": "57be173daca2e85964b02f50d5de2fa7c83bdbdb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/7b55237032c419ff0f802e2a610094dd5efacd71",
-            "reference": "7b55237032c419ff0f802e2a610094dd5efacd71",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/57be173daca2e85964b02f50d5de2fa7c83bdbdb",
+            "reference": "57be173daca2e85964b02f50d5de2fa7c83bdbdb",
             "shasum": ""
         },
         "require": {
@@ -3721,7 +3780,7 @@
             "symfony/dom-crawler": "Required to use most of the crawler integration testing tools (3.1.*).",
             "symfony/psr-http-message-bridge": "Required to use psr7 bridging features (0.2.*)."
         },
-        "time": "2016-11-07 22:41:58",
+        "time": "2016-11-10 13:38:51",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3753,65 +3812,6 @@
         "keywords": [
             "framework",
             "laravel"
-        ]
-    },
-    {
-        "name": "mews/captcha",
-        "version": "v2.1.4",
-        "version_normalized": "2.1.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/mewebstudio/captcha.git",
-            "reference": "ada76309e55fcbd3bb5604f4fd0dd357dec35823"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/mewebstudio/captcha/zipball/ada76309e55fcbd3bb5604f4fd0dd357dec35823",
-            "reference": "ada76309e55fcbd3bb5604f4fd0dd357dec35823",
-            "shasum": ""
-        },
-        "require": {
-            "ext-gd": "*",
-            "illuminate/config": "~5.0",
-            "illuminate/filesystem": "~5.0",
-            "illuminate/hashing": "~5.0",
-            "illuminate/support": "~5.0",
-            "intervention/image": "~2.2",
-            "php": ">=5.4"
-        },
-        "require-dev": {
-            "mockery/mockery": "0.9.*",
-            "phpunit/phpunit": "~4.1"
-        },
-        "time": "2016-07-19 09:01:51",
-        "type": "package",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Mews\\Captcha\\": "src/"
-            },
-            "files": [
-                "src/helpers.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Muharrem ERİN",
-                "email": "me@mewebstudio.com",
-                "homepage": "https://github.com/mewebstudio",
-                "role": "Developer"
-            }
-        ],
-        "description": "Laravel 5 Captcha Package",
-        "homepage": "https://github.com/mewebstudio/captcha",
-        "keywords": [
-            "captcha",
-            "laravel5 Captcha",
-            "laravel5 Security"
         ]
     }
 ]

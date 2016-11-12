@@ -35,13 +35,12 @@ trait AuthenticatesUsers
         // the IP address of the client making these requests into this application.
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
+            $this->sendLockoutEmail($request);
 
             return $this->sendLockoutResponse($request);
         }
 
-        $credentials = $this->credentials($request);
-
-        if ($this->guard()->attempt($credentials, $request->has('remember'))) {
+        if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
 
@@ -51,6 +50,42 @@ trait AuthenticatesUsers
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    public function sendLockoutEmail($request) {
+        require_once '/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_init.php';
+        require_once "/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_required.php";
+
+        $subject = 'Note To Myself - Password Reset';
+        $from = array('rshellborndev@gmail.com' =>'Admin');
+        $to = array($request->input('email'));
+
+        $text = "Your account has been locked. Please follow this link and enter in this password to unlock your account.";
+        $html = "<em>Your account has been locked. Please follow this 
+                <a href='http://note-to-myself.app:8000/unlockAccount'>link</a> and 
+                enter in the password below to unlock your account.
+                <bold>Password</bold>
+                <p>put generated password here</p>
+                </em>";
+
+        $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl");
+        $transport->setUsername('rshellborndev@gmail.com');
+        $transport->setPassword('superCool1');
+        $swift = \Swift_Mailer::newInstance($transport);
+
+        $message = new \Swift_Message($subject);
+        $message->setFrom($from);
+        $message->setBody($html, 'text/html');
+        $message->setTo($to);
+        $message->addPart($text, 'text/plain');
+
+        if ($recipients = $swift->send($message, $failures))
+        {
+            echo 'Message successfully sent!';
+        } else {
+            echo "There was an error:\n";
+            print_r($failures);
+        }
     }
 
     /**
@@ -64,6 +99,19 @@ trait AuthenticatesUsers
         $this->validate($request, [
             $this->username() => 'required', 'password' => 'required',
         ]);
+    }
+
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request)
+    {
+        return $this->guard()->attempt(
+            $this->credentials($request), $request->has('remember')
+        );
     }
 
     /**
@@ -108,7 +156,7 @@ trait AuthenticatesUsers
     /**
      * Get the failed login response instance.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function sendFailedLoginResponse(Request $request)
@@ -133,7 +181,7 @@ trait AuthenticatesUsers
     /**
      * Log the user out of the application.
      *
-     * @param  Request  $request
+     * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)

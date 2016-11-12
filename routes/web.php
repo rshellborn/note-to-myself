@@ -11,10 +11,46 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/unlock', function () {
+    return view('unlock');
+});
+
+Route::get('/send-mail', function() {
+    require_once '/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_init.php';
+    require_once "/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_required.php";
+
+    $subject = 'My first email with SwiftMailer';
+    $from = array('rshellborndev@gmail.com' =>'Rachel Shellborn');
+    $to = array('rachel@shellborn.com');
+
+    $text = "This actually works, and I actually hate pathing issues. This is for plain text.";
+    $html = "<em>This actually works, and it's super cool!</em>";
+
+    $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl");
+    $transport->setUsername('rshellborndev@gmail.com');
+    $transport->setPassword('superCool1');
+    $swift = Swift_Mailer::newInstance($transport);
+
+    $message = new Swift_Message($subject);
+    $message->setFrom($from);
+    $message->setBody($html, 'text/html');
+    $message->setTo($to);
+    $message->addPart($text, 'text/plain');
+
+    if ($recipients = $swift->send($message, $failures))
+    {
+        echo 'Message successfully sent!';
+    } else {
+        echo "There was an error:\n";
+        print_r($failures);
+    }
+
+});
 
 Auth::routes();
 
