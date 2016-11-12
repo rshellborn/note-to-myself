@@ -3,6 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
+
 
 class HomeController extends Controller
 {
@@ -31,10 +42,10 @@ class HomeController extends Controller
         }
 
         if ((time() - $_SESSION["timer"]) > (.1 * 60)) {
-            //$user = User::find($user_id);
-            //Auth::logout($user);
-            //unset($_SESSION["timer"]);
-            //return view('auth.login')->with('timeout', "you been logout for inactivity");
+            $user = \User::find($user_id);
+            Auth::logout($user);
+            unset($_SESSION["timer"]);
+            return view('auth.login')->with('timeout', "you been logout for inactivity");
         }
 
         $_SESSION["timer"] = time();
