@@ -21,8 +21,23 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user_id =  \Auth::user()->id;
+
+        session_start();
+        if(!isset($_SESSION["timer"])){
+            $_SESSION["timer"] = time();
+        }
+
+        if ((time() - $_SESSION["timer"]) > (.1 * 60)) {
+            //$user = User::find($user_id);
+            //Auth::logout($user);
+            //unset($_SESSION["timer"]);
+            //return view('auth.login')->with('timeout', "you been logout for inactivity");
+        }
+
+        $_SESSION["timer"] = time();
         return view('home');
     }
 }
