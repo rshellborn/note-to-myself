@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Lang;
 trait AuthenticatesUsers
 {
     use RedirectsUsers, ThrottlesLogins;
+    use App\User;
 
     /**
      * Show the application's login form.
@@ -56,10 +57,10 @@ trait AuthenticatesUsers
     public function lockAccount($request) {
         $email = $request->input('email');
 
-        $user = App\User::where('email', $email);
+        $user = User::where('email', $email);
 
         $user->status = 'locked';
-
+        $randomPassword = str_random(10);
         $user->save();
     }
 
