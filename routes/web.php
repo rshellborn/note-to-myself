@@ -19,7 +19,7 @@ Route::get('/test', function () {
     return view('test');
 });
 Route::get('/home', 'HomeController@index');
-Route::post('/home', 'FormController@index');
+Route::post('/home', 'FormController@store');
 
 //Route::post('/users/{user_id}/storage','StoreController@store' );
 

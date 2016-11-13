@@ -18,6 +18,7 @@
 
                     <div class="col-xs-3">
                         <label for="notes">My Notes:</label>
+
                         <textarea name ="texts" rows ="20" class ="form-control">
                             @foreach ($texts as $text)
                                 {{$text->textBody}}
@@ -26,13 +27,19 @@
                     </div>
 
                     <div class="col-xs-3">
-                        <label for="website">My WebSites:</label>
+                        <div class="form-group">
+                            <label for="website">WebSites:</label>
 
-                        @foreach ($links as $link)
-                        <div name ="links" rows ="20" class ="form-control">
-                                <a href="{{ URL::to($link->linksBody) }}" >{{$link->linksBody}}</a>
+                            @foreach($links as $link)
+                                @if(!empty($link))
+                                    <a href="{{$link}}" target="_blank"><input class="form-control" name="website[]" id="website" placeholder="add website" value="{{$link}}"></a>
+                                @endif
+                            @endforeach
+
+                            <input class="form-control" name="website[]" id="website" placeholder="add website" >
+
                         </div>
-                        @endforeach
+
 
                     </div>
 
@@ -59,9 +66,6 @@
                             @endforeach
                         </textarea>
                     </div>
-
-
-
                     <div class = "text-center">
                         <button type ="submit" class="btn btn-primary">Save</button>
                     </div>

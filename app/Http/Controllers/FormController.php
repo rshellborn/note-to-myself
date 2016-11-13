@@ -18,51 +18,56 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 
+
 class FormController extends Controller
 {
-
-    public function index(){
-        $user_id  =  Auth::user()->id;
-        if(is_null($user_id))
-        {
-            return redirect("/welcome");
-        }
-        $texts    = Text::where('user_id', $user_id)->first();//->textBody;
-        $tbds     = Tba::where('user_id', $user_id)->first();//->tbaBody;
-        $links    = Link::where('user_id', $user_id)->first();//->linkBody;
-        $images    = Image::where('user_id',$user_id)->first();//->image;
-
-        return view('home', compact('texts', 'tbds' , 'links' ,'images'));
-
-    }
-
-    public function store(Request $request, User $user)
+    public function store(Request $request)
     {
-        if ($request->has('image'))
-        {
-            $image = new Image;
-            $image->image = $request->image;
-            $user->images()->save($image);
+        $user_id  =  Auth::user()->id;
+
+
+        $getNotes = Input::get('texts');
+        $notes = Text::where('user_id', $user_id)->first();
+
+        if ($notes == NULL){
+            DB::table('texts')->insert(
+                ['user_id' => $user_id, 'textBody' => $getNotes, 'created_at'=>new \DateTime(),'updated_at'=>new \DateTime()]);
+        } else {
+            $notes->textBody = $getNotes;
+            $notes->save();
         }
-        if ($request->has('linksBody'))
-        {
-            $link = new Link();
-            $link->linksBody = $request->linksBody;
-            $user->links()->save($link);
+
+        $getTbas = Input::get('tbas');
+        $tbas = Tba::where('user_id', $user_id)->first();
+
+        if ($tbas == NULL){
+            DB::table('tbas')->insert(
+                ['user_id' => $user_id, 'tbaBody' => $getTbas, 'created_at'=>new \DateTime(),'updated_at'=>new \DateTime()]);
+        } else {
+            $tbas->tbaBody = $getTbas;
+            $tbas->save();
         }
-        if ($request->has('tbaBody'))
-        {
-            $tba = new Tba();
-            $tba->tbaBody = $request->tbaBody;
-            $user->tbas()->save($tba);
-        }
-        if ($request->has('textBody'))
-        {
-            $text = new Text();
-            $text->textBody = $request->textBody;
-            $user->texts()->save($text);
-        }
+
+        $getLinks = Input::get('website');
+        $allLinks = implode(',', array_filter($getLinks));
+
+        $links = Link::where('user_id', $user_id)->first();
+
+        $links->linksBody = $allLinks;
+        $links->save();
 
         return back();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

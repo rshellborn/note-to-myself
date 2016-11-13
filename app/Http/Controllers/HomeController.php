@@ -39,8 +39,9 @@ class HomeController extends Controller
 
         $texts = DB::table('texts')->where('user_id', $user_id)->get();
         $tbas = DB::table('tbas')->where('user_id', $user_id)->get();
-        $links = DB::table('links')->where('user_id', $user_id)->get();
+        $linksString = DB::table('links')->where('user_id', $user_id)->first()->linksBody;
 
+        $links = explode(',', $linksString);
 
         return view('home', compact('texts','tbas','links'));
 
