@@ -25,7 +25,6 @@ class FormController extends Controller
     {
         $user_id  =  Auth::user()->id;
 
-
         $getNotes = Input::get('texts');
         $notes = Text::where('user_id', $user_id)->first();
 
@@ -48,26 +47,56 @@ class FormController extends Controller
             $tbas->save();
         }
 
+
+
+
         $getLinks = Input::get('website');
         $allLinks = implode(',', array_filter($getLinks));
+        $check = Link::where('user_id', $user_id)->get();
+
+        if($check->isEmpty()) {
+            DB::table('links')->insert(
+                ['user_id' => $user_id, 'linkBody' => "", 'created_at' => new \DateTime(), 'updated_at' => new \DateTime()]);
+        }
 
         $links = Link::where('user_id', $user_id)->first();
-
-        $links->linksBody = $allLinks;
+        $links->linkBody = $allLinks;
         $links->save();
+
+
+
+
+        If(Input::hasFile('myImage')){
+
+            $file = Input::file('myImage');
+
+            $destinationPath = public_path(). '/uploads/';
+            $filename = $file->getClientOriginalName();
+
+            $allImageNames = Input::get('imageNames');
+            if($allImageNames != null) {
+                $allImages = implode(',', array_filter($allImageNames));
+                $allImages = $allImages . ',' . $filename;
+            } else {
+                $allImages = $filename;
+            }
+
+
+            $check = Image::where('user_id', $user_id)->get();
+            if($check->isEmpty()) {
+                DB::table('images')->insert(
+                    ['user_id' => $user_id, 'image' => "", 'created_at' => new \DateTime(), 'updated_at' => new \DateTime()]);
+            }
+
+            $images = Image::where('user_id', $user_id)->first();
+            $images->image = $allImages;
+            $images->save();
+
+
+            $file->move($destinationPath, $filename);
+        }
+
 
         return back();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

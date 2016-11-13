@@ -18,18 +18,14 @@
 
                     <div class="col-xs-3">
                         <label for="notes">My Notes:</label>
-
                         <textarea name ="texts" rows ="20" class ="form-control">
-                            @foreach ($texts as $text)
-                                {{$text->textBody}}
-                            @endforeach
+                                {{$texts}}
                         </textarea>
                     </div>
 
                     <div class="col-xs-3">
                         <div class="form-group">
                             <label for="website">WebSites:</label>
-
                             @foreach($links as $link)
                                 @if(!empty($link))
                                     <a href="{{$link}}" target="_blank"><input class="form-control" name="website[]" id="website" placeholder="add website" value="{{$link}}"></a>
@@ -47,23 +43,24 @@
                         <label for="images">Images:</label>
                         <input class="form-control" type="file" name="myImage" id="images">
                         <table>
-                            <tr>
-                                <!-- //foreach($myImage as imgKey => img)
-                                         <text-align: center">
-                                         <img height="150" width="150" src="????? $img }}"><br>
-                                         <input type="checkbox" name="delete" value="imgKey}}"> delete
-                                         </td>
-                                     //endforeach -->
-                            </tr>
+                                @foreach($images as $key => $image)
+                                <tr>
+                                    <td>
+                                        <input name="imageNames[]" id="imageNames" type="hidden" value="{{$image}}"/>
+                                        <img width="100px" src="{{ asset('uploads/' . $image) }}" />
+                                    </td>
+                                    <td>
+                                         <input type="checkbox" name="delete[]" value="{{ $key }}"> delete
+                                    </td>
+                                </tr><br/>
+                                @endforeach
                         </table>
                     </div>
 
                     <div class="col-xs-3">
                         <label for="tba">TBD</label>
                         <textarea name ="tbas" rows ="20" class ="form-control">
-                            @foreach ($tbas as $tba)
-                                {{$tba->tbaBody}}
-                            @endforeach
+                                {{$tbas}}
                         </textarea>
                     </div>
                     <div class = "text-center">

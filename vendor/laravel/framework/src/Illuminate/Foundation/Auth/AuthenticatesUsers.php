@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Lang;
 trait AuthenticatesUsers
 {
     use RedirectsUsers, ThrottlesLogins;
-    use App\User;
+//    use App\User;
 
     /**
      * Show the application's login form.
