@@ -25,7 +25,6 @@ class FormController extends Controller
     {
         $user_id  =  Auth::user()->id;
 
-
         $getNotes = Input::get('texts');
         $notes = Text::where('user_id', $user_id)->first();
 
