@@ -57,6 +57,44 @@ trait RegistersUsers
      */
     protected function registered(Request $request, $user)
     {
-        //
+        $this->sendConfirmationEmail($request);
+        Auth::logout(User::find($user->id));
+    }
+
+    public function sendConfirmationEmail($request) {
+        require_once '/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_init.php';
+        require_once "/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_required.php";
+
+        $subject = 'Note To Myself - Activate Your Account';
+        $from = array('rshellborndev@gmail.com' =>'Admin');
+        $to = array($request->input('email'));
+
+        $email = $request->input('email');
+
+        $link = "http://note-to-myself.app:8000/activate?email=" . $email;
+
+        $text = "To activate your account please follow this link and login.";
+        $html = "<h1><strong>Note To Myself</strong></h1></br>
+                To activate your account please follow this link and login.
+                <a href=$link>link.</a>";
+
+        $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl");
+        $transport->setUsername('rshellborndev@gmail.com');
+        $transport->setPassword('superCool1');
+        $swift = \Swift_Mailer::newInstance($transport);
+
+        $message = new \Swift_Message($subject);
+        $message->setFrom($from);
+        $message->setBody($html, 'text/html');
+        $message->setTo($to);
+        $message->addPart($text, 'text/plain');
+
+        if ($recipients = $swift->send($message, $failures))
+        {
+            echo 'Message successfully sent!';
+        } else {
+            echo "There was an error:\n";
+            print_r($failures);
+        }
     }
 }

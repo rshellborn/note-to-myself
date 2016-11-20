@@ -34,6 +34,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        if(!isset($_SESSION["timeout"])){
+            $_SESSION["timeout"] = time();
+        }
+
         $user_id =  Auth::user()->id;
 
         $texts = DB::table('texts')->where('user_id', $user_id)->get();

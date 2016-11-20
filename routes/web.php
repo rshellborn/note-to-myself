@@ -15,17 +15,20 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::post('/', function () {
+    return view('wrongType');
+});
+
 Route::get('/test', function () {
     return view('test');
 });
 Route::get('/home', 'HomeController@index');
 Route::post('/home', 'FormController@store');
 
-//Route::post('/users/{user_id}/storage','StoreController@store' );
+Route::get('/unlock', 'UnlockController@index');
+Route::post('/unlock', 'UnlockController@unlock');
 
-Route::get('/unlock', function () {
-    return view('unlock');
-});
+Route::get('/activate', 'ActivateController@index');
 
 Route::get('/send-mail', function() {
     require_once '/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_init.php';

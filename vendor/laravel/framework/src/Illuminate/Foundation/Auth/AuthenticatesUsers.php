@@ -5,11 +5,11 @@ namespace Illuminate\Foundation\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\DB;
 
 trait AuthenticatesUsers
 {
     use RedirectsUsers, ThrottlesLogins;
-//    use App\User;
 
     /**
      * Show the application's login form.
@@ -31,13 +31,28 @@ trait AuthenticatesUsers
     {
         $this->validateLogin($request);
 
+
+        $email = $request->input('email');
+
+        $user = User::where('email', $email)->first();
+
+        //check if account is locked
+        if ($user->status == 'locked') {
+            return $this->sendFailedLoginResponse($request);
+        }
+
+        if ($user->active == 'no') {
+            return $this->sendFailedLoginResponse($request);
+        }
+
+
+
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
-            $this->sendLockoutEmail($request);
-            //$this->lockAccount($request);
+            $this->lockAccount($request);
 
             return $this->sendLockoutResponse($request);
         }
@@ -57,14 +72,39 @@ trait AuthenticatesUsers
     public function lockAccount($request) {
         $email = $request->input('email');
 
-        $user = User::where('email', $email);
+        $user = User::where('email', $email)->first();
 
+        //set status to locked
         $user->status = 'locked';
-        $randomPassword = str_random(10);
+
+        //generating random pass
+        $password = $this->randomPassword();
+
+        //hash the password
+        $hashedPassword = \Hash::make($password);
+
+        //change password in database
+        $user->password = $hashedPassword;
+
         $user->save();
+
+
+        //send email to user
+        $this->sendLockoutEmail($request, $password);
     }
 
-    public function sendLockoutEmail($request) {
+    function randomPassword() {
+        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+    }
+
+    public function sendLockoutEmail($request, $password) {
         require_once '/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_init.php';
         require_once "/home/vagrant/Code/note-to-myself/vendor/swiftmailer/swiftmailer/lib/swift_required.php";
 
@@ -73,12 +113,13 @@ trait AuthenticatesUsers
         $to = array($request->input('email'));
 
         $text = "Your account has been locked. Please follow this link and enter in this password to unlock your account.";
-        $html = "<em>Your account has been locked. Please follow this 
-                <a href='http://note-to-myself.app:8000/unlockAccount'>link</a> and 
-                enter in the password below to unlock your account.
-                <bold>Password</bold>
-                <p>put generated password here</p>
-                </em>";
+        $html = "<h1><strong>Note To Myself</strong></h1></br>
+                Your account has been locked. Please follow this 
+                <a href='http://note-to-myself.app:8000/unlock'>link</a> and 
+                enter in the password below to unlock your account.<br/><br/>
+                
+                <strong>Generated Password: </strong>
+                $password";
 
         $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl");
         $transport->setUsername('rshellborndev@gmail.com');
@@ -162,7 +203,8 @@ trait AuthenticatesUsers
      */
     protected function authenticated(Request $request, $user)
     {
-        //
+        session_start();
+        $_SESSION["timeout"] = time();
     }
 
     /**
@@ -173,9 +215,31 @@ trait AuthenticatesUsers
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors([
+        $email = $request->input('email');
+
+        $user = User::where('email', $email)->first();
+
+        //check if account is locked
+        if ($user->status == 'locked') {
+            return redirect()->back()
+                ->withInput($request->only($this->username(), 'remember'))
+                ->withErrors([
+                    $this->username() => Lang::get('auth.locked'),
+                ]);
+        }
+
+        if ($user->active == 'no') {
+            return redirect()->back()
+                ->withInput($request->only($this->username(), 'remember'))
+                ->withErrors([
+                    $this->username() => Lang::get('auth.notactive'),
+                ]);
+        }
+
+
+            return redirect()->back()
+                ->withInput($request->only($this->username(), 'remember'))
+                ->withErrors([
                 $this->username() => Lang::get('auth.failed'),
             ]);
     }

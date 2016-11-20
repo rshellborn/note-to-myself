@@ -18,7 +18,7 @@ trait ThrottlesLogins
      */
     protected function hasTooManyLoginAttempts(Request $request)
     {
-        $maxLoginAttempts = 0;
+        $maxLoginAttempts = 2;
         $lockoutTime = 0.5;
 
         return $this->limiter()->tooManyAttempts(
@@ -49,7 +49,8 @@ trait ThrottlesLogins
             $this->throttleKey($request)
         );
 
-        $message = Lang::get('auth.throttle', ['seconds' => $seconds]);
+        //$message = Lang::get('auth.throttle', ['seconds' => $seconds]);
+        $message = Lang::get('auth.locked');
 
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
