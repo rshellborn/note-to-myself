@@ -37,9 +37,10 @@ class FormController extends Controller
         if ((time() - $_SESSION["timeout"]) > (20 * 60)) {
             Auth::logout(User::find($user_id));
             unset($_SESSION["timer"]);
-            return view('welcome');
         }
         $_SESSION["timeout"] = time();
+
+
 
         $getNotes = Input::get('texts');
         $notes = Text::where('user_id', $user_id)->first();

@@ -36,13 +36,16 @@ trait AuthenticatesUsers
 
         $user = User::where('email', $email)->first();
 
-        //check if account is locked
-        if ($user->status == 'locked') {
-            return $this->sendFailedLoginResponse($request);
-        }
+        if($user != null) {
 
-        if ($user->active == 'no') {
-            return $this->sendFailedLoginResponse($request);
+            //check if account is locked
+            if ($user->status == 'locked') {
+                return $this->sendFailedLoginResponse($request);
+            }
+
+            if ($user->active == 'no') {
+                return $this->sendFailedLoginResponse($request);
+            }
         }
 
 
@@ -219,21 +222,23 @@ trait AuthenticatesUsers
 
         $user = User::where('email', $email)->first();
 
-        //check if account is locked
-        if ($user->status == 'locked') {
-            return redirect()->back()
-                ->withInput($request->only($this->username(), 'remember'))
-                ->withErrors([
-                    $this->username() => Lang::get('auth.locked'),
-                ]);
-        }
+        if($user != null) {
+            //check if account is locked
+            if ($user->status == 'locked') {
+                return redirect()->back()
+                    ->withInput($request->only($this->username(), 'remember'))
+                    ->withErrors([
+                        $this->username() => Lang::get('auth.locked'),
+                    ]);
+            }
 
-        if ($user->active == 'no') {
-            return redirect()->back()
-                ->withInput($request->only($this->username(), 'remember'))
-                ->withErrors([
-                    $this->username() => Lang::get('auth.notactive'),
-                ]);
+            if ($user->active == 'no') {
+                return redirect()->back()
+                    ->withInput($request->only($this->username(), 'remember'))
+                    ->withErrors([
+                        $this->username() => Lang::get('auth.notactive'),
+                    ]);
+            }
         }
 
 
@@ -268,7 +273,7 @@ trait AuthenticatesUsers
 
         $request->session()->regenerate();
 
-        return redirect('/');
+        return view('auth.login');
     }
 
     /**

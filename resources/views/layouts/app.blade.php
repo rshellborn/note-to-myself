@@ -35,7 +35,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand"">
                         {{ config('app.name', 'Note To Myself') }}
                     </a>
                 </div>
